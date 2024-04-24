@@ -14,10 +14,10 @@ public class LoginView {
         System.out.println("----Login----");
         System.out.println("Email: ");
         String email = sc.nextLine();
-        System.out.println("Nome: ");
-        String nome = sc.nextLine();
         System.out.println("Senha: ");
         String senha = sc.nextLine();
+
+        String nome = " ";
 
         return new Usuario(email, nome, senha);
     }

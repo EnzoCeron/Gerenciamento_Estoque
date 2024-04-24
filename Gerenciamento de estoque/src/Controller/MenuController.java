@@ -7,6 +7,7 @@ public class MenuController {
 
 
     private CadastroController cc;
+    private ListarUserController luc;
     private MenuView mv;
     private int opcao;
 
@@ -23,7 +24,7 @@ public class MenuController {
                 this.cc = new CadastroController();
             }else if(this.opcao == 2){
                 //listar usuarios
-                          
+                this.luc = new ListarUserController();        
             }else if(this.opcao == 3){
                 //excluir usuario
 
