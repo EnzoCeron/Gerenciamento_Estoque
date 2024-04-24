@@ -15,8 +15,5 @@ public class CadastroController {
         this.usuario = this.cv.cadastrarUsuario();
         this.ud = new UsuarioDAO();
         this.ud.inserirUsuario(this.usuario);
-        
-
     }
-    
 }

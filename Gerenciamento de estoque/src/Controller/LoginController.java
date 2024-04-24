@@ -11,8 +11,7 @@ public class LoginController {
     private UsuarioDAO ud;
     private MenuController mc;
 
-    
-        public LoginController() {
+    public LoginController() {
         this.lv = new LoginView();
         this.usuario = this.lv.login();
         this.ud = new UsuarioDAO();
@@ -27,7 +26,7 @@ public class LoginController {
             System.out.println("Usuario ou senha invalidos");
             new LoginController();
         }
-        }
     }
+}
     
 

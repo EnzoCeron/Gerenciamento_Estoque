@@ -46,7 +46,6 @@ public class UsuarioDAO {
             this.ps.setString(2, usuario.getSenha()); 
             this.rs = this.ps.executeQuery();
             return rs.next(); // Retorna True se encontrar um usuario correspondente
-            
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -63,8 +62,7 @@ public class UsuarioDAO {
         try{
             this.query = "SELECT * FROM usuario";
             this.ps = this.conexao.getCon().prepareStatement(query);
-             return this.ps.executeQuery();
-
+            return this.ps.executeQuery();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -75,6 +73,4 @@ public class UsuarioDAO {
 
         return null;
     }
-
-
 }

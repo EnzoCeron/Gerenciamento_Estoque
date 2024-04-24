@@ -13,10 +13,4 @@ public class ListarUserController {
         this.ud = new UsuarioDAO();
         this.luv.listarUsuarios(this.ud.listarUsuarios());
     }
-
-
-
-
-
-
 }
