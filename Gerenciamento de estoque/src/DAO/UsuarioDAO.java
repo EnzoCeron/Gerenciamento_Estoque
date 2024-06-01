@@ -3,8 +3,17 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
 
 import Model.Usuario;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.cognitoidentity.model.CognitoIdentityProvider;
+import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
+import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
+import com.amazonaws.services.cognitoidp.model.*;
+import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderAsyncClient;
 
 public class UsuarioDAO {
 
@@ -12,10 +21,21 @@ public class UsuarioDAO {
     private String query;
     private PreparedStatement ps;
     private ResultSet rs;
+    //Cadastro e Login de Usuario, via Cognito
+    private String USER_POOL_ID = "us-east-2_pEEvvUKHm";
+    private String CLIENT_ID = "66g36clem57321e4gc195ppijq";
+    private Map<String, String> authparams = new HashMap<String, String>();
 
     public UsuarioDAO() {
         this.conexao = Conexao.getInstacia();
     }
+
+    //Gere uma instância do Provedor de Identidade de
+    //Acesso do Cognito.
+
+    AWSCognitoIdentityProvider cognitoClient = AWSCognitoIdentityProviderClientBuilder.standard()
+            .withRegion(Regions.US_EAST_2)
+            .build();
 
     //Funcao de verificacao de email dentro do banco
     private boolean verificarEmailExistente(String email) {
@@ -59,15 +79,41 @@ public class UsuarioDAO {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        SignUpRequest singnUpRequest = new SignUpRequest()
+                .withClientId(CLIENT_ID)
+                .withUsername(usuario.getEmail())
+                .withPassword(usuario.getSenha());
+
+        SignUpResult result = cognitoClient.signUp(singnUpRequest);
+        System.out.println("Usuario cadastrado com sucesso no Cognito. Status:" + result.getUserConfirmed());
     }
 
     //Funcao de Login de Usuario
     public boolean LoginUsuario(Usuario usuario) {
+        authparams.put("USERNAME", usuario.getEmail());
+        authparams.put("PASSWORD", usuario.getSenha());
+
+        InitiateAuthRequest authRequest = new InitiateAuthRequest()
+                .withAuthFlow(AuthFlowType.USER_PASSWORD_AUTH)
+                .withAuthParameters(authparams)
+                .withClientId(CLIENT_ID);
+
+
+        InitiateAuthResult authResponse = cognitoClient.initiateAuth(authRequest);
+        AuthenticationResultType authResult = authResponse.getAuthenticationResult();
+        if (authResult != null) {
+            System.out.println("Usuario logado com sucesso no Cognito");
+        } else {
+            System.out.println("Usuario ou senha invalidos");
+        }
+
+
         try {
             this.query = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
             this.ps = this.conexao.getCon().prepareStatement(query);
             this.ps.setString(1, usuario.getEmail());
-            this.ps.setString(2, usuario.getSenha()); 
+            this.ps.setString(2, usuario.getSenha());
             this.rs = this.ps.executeQuery();
             return rs.next(); // Retorna True se encontrar um usuario correspondente
         }
@@ -97,4 +143,6 @@ public class UsuarioDAO {
 
         return null;
     }
+
 }
+

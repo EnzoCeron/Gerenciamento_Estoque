@@ -23,9 +23,8 @@ public class CadastroProdutoView {
         int quantidade = sc.nextInt();
         System.out.println("Produto cadastrado com sucesso!");
 
-        int id = 0;
         
-        return new Produto(id, nome, descricao, quantidade, preco);
+        return new Produto( nome, descricao, quantidade, preco);
 
     }
 
