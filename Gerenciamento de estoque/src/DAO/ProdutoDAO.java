@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 import Model.Produto;
 
-public class ProdutoDAO {
+public class
+ProdutoDAO {
 
     private Conexao conexao;
     private String query;
