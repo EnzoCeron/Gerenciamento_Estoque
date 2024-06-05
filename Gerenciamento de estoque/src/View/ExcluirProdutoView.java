@@ -14,14 +14,14 @@ public class ExcluirProdutoView {
 
     public Produto excluirProduto() {
         System.out.println("---Exclusão de Produto---");
-        System.out.println("Nome do produto a ser excluído: ");
-        String nome = sc.nextLine();
+        System.out.println("Id do produto a ser excluído: ");
+        int id = Integer.parseInt(sc.nextLine());
 
 
         // Este método supõe que o processo de exclusão será tratado pelo Controller
-        System.out.println("Preparado para excluir o produto: " + nome);
+        System.out.println("Preparado para excluir o produto: " + id);
 
-        return new Produto(nome);
+        return new Produto(id);
     }
 
 

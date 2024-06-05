@@ -45,7 +45,6 @@ public class MenuController {
             }else if(this.opcao == 7){
                 //excluir produto
                 this.exc = new ExcluirProdController();
-
             }else if(this.opcao == 8){
                 //atualizar produto
                 this.epc = new EditProdController();
@@ -55,7 +54,7 @@ public class MenuController {
             }else if(this.opcao == 10){
                 //realizar compra
                 this.coc = new CompraController();
-            }else if(this.opcao == 11){
+            //}else if(this.opcao == 11){     //devido a falta de tempo, não foi possível implementar
                 //relatorio de compras e vendas
 
             }else {

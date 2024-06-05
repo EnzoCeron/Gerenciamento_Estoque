@@ -201,58 +201,55 @@ public class ProdutoDAO {
     }
     //Excluir produto
 
-    public void excluirProduto(Produto nome) {
+        public void excluirProduto(Produto produto) {
+            try {
+                // Verifica se o produto existe antes de tentar excluí-lo
+                if (produtoExiste(produto.getId())) {
+                    // Prepara a query SQL para deletar um produto pelo ID
+                    String query = "DELETE FROM produto WHERE id_produto = ?";
+                    this.ps = this.conexao.getCon().prepareStatement(query);
 
-        try {
-            // Verifica se o produto existe antes de tentar excluí-lo
-            if (verificaProdutoExiste(nome)) {
-                // Prepara a query SQL para deletar um produto pelo nome
-                this.query = "DELETE FROM produto WHERE nome = ?";
-                this.ps = this.conexao.getCon().prepareStatement(query);  // Utiliza a classe 'conexao' que gerencia a conexão com o banco de dados
+                    // Define o ID do produto no PreparedStatement
+                    ps.setInt(1, produto.getId());
 
-                // Define o nome do produto no PreparedStatement
-                this.ps.setString(1, String.valueOf(nome));
-
-                // Executa a atualização
-                int affectedRows = this.ps.executeUpdate();
-                if (affectedRows > 0) {
-                    System.out.println("Produto excluído com sucesso!");
+                    // Executa a atualização
+                    int affectedRows = ps.executeUpdate();
+                    if (affectedRows > 0) {
+                        System.out.println("Produto excluído com sucesso!");
+                    } else {
+                        System.out.println("Nenhum produto foi excluído.");
+                    }
+                    ps.close();
                 } else {
-                    System.out.println("Nenhum produto encontrado com o nome: " + nome);
+                    System.out.println("Produto não encontrado no banco de dados.");
                 }
-
-                // Fecha o PreparedStatement
-                this.ps.close();
-            } else {
-                System.out.println("Produto com o nome " + nome + " não encontrado.");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+
+        // Método para verificar se um produto existe no banco de dados
+        private boolean produtoExiste(int id) throws SQLException {
+            // Prepara a query SQL para verificar se o produto existe pelo ID
+            String query = "SELECT COUNT(*) FROM produto WHERE id_produto = ?";
+            this.ps = this.conexao.getCon().prepareStatement(query);
+
+            // Define o ID do produto no PreparedStatement
+            ps.setInt(1, id);
+
+            // Executa a consulta
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+
+            // Fecha os recursos
+            rs.close();
+            ps.close();
+
+            // Retorna verdadeiro se o produto existe (count > 0)
+            return count > 0;
         }
     }
-
-    //davi
-    public boolean verificaProdutoExiste(Produto nome) {
-        String sql = "SELECT COUNT(*) FROM produto WHERE nome = ?";
-
-        try (Connection conn = this.conexao.getCon(); //
-             PreparedStatement ps = ((Connection) conn).prepareStatement(sql)) {
-
-            ps.setString(1, String.valueOf(nome)); // Define o nome do produto no PreparedStatement
-
-            ResultSet rs = ps.executeQuery(); // Executa a consulta
-            if (rs.next()) {
-                return rs.getInt(1) > 0; // Retorna true se o count for maior que 0
-            }
-            return false; // Retorna false se não houver registros
-        } catch (SQLException e) {
-            System.out.println("Erro ao verificar a existência do produto: " + e.getMessage());
-            return false; // Retorna false em caso de exceção
-        }
-    }
-
-
-}
 
 
 

@@ -22,7 +22,7 @@ public class MenuView {
         System.out.println("(8) - Atualizar produto");
         System.out.println("(9) - Realizar venda");
         System.out.println("(10) - Realizar compra");
-        System.out.println("(11) - Relatorio de compras e vendas");
+        //System.out.println("(11) - Relatorio de compras e vendas");
         System.out.println("(99) - Sair");
         System.out.println("Opcao: ");
         return sc.nextInt();

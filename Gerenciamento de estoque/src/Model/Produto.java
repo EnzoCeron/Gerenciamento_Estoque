@@ -23,10 +23,10 @@ public class Produto {
         this.preco = preco;
     }
 
-    public Produto (String nome){
-        this.nome = nome;
-    }
 
+    public Produto(int id) {
+        this.id = id;
+    }
 
     public Produto(String nome,String descricao, int quantidade, double preco){
         this.nome = nome;
