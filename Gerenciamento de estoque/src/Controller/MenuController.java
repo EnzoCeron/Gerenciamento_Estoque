@@ -12,6 +12,7 @@ public class MenuController {
     private ExclusaoUsuarioController euc;
     private PesquisarProdController ppc;
     private VendaController vc;
+    private CompraController coc;
     private int opcao;
 
     public MenuController() {
@@ -52,7 +53,7 @@ public class MenuController {
 
             }else if(this.opcao == 10){
                 //realizar compra
-
+                this.coc = new CompraController();
             }else if(this.opcao == 11){
                 //relatorio de compras e vendas
 

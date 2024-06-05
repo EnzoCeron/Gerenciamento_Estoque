@@ -3,7 +3,10 @@ package Controller;
 import DAO.ProdutoDAO;
 import Model.Produto;
 import View.PesquisarProdView;
-    public class PesquisarProdController {
+
+import java.sql.ResultSet;
+
+public class PesquisarProdController {
 
         private PesquisarProdView pnv;
         private Produto produto;
@@ -13,6 +16,7 @@ import View.PesquisarProdView;
             this.pnv = new PesquisarProdView();
             this.produto = this.pnv.PesquisarProd();
             this.pd = new ProdutoDAO();
-            this.pd.pesquisarProd(this.produto);
+            ResultSet rs = this.pd.pesquisarProd(produto);
+            this.pnv.printProdutoResultSet(rs);
         }
     }

@@ -72,15 +72,104 @@ public class ProdutoDAO {
                 this.ps.setString(1, identificador);
             }
             rs = this.ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet Venda(Produto produto) {
+        ResultSet rs = null;
+        try {
+            String identificador = produto.getIdentificador();
+            int quantidadeVendida = produto.getQuantidade();
+
+            if (isNumeric(identificador)) {
+                int id = Integer.parseInt(identificador);
+                query = "SELECT quantidade FROM produto WHERE id_produto = ?";
+                ps = conexao.getCon().prepareStatement(query);
+                ps.setInt(1, id);
+            } else {
+                query = "SELECT quantidade FROM produto WHERE nome = ?";
+                ps = conexao.getCon().prepareStatement(query);
+                ps.setString(1, identificador);
+            }
+
+            rs = ps.executeQuery();
 
             if (rs.next()) {
-                System.out.println("Id: " + rs.getInt("id_produto"));
-                System.out.println("Nome: " + rs.getString("nome"));
-                System.out.println("Descricao: " + rs.getString("descricao"));
-                System.out.println("Preço: R$ " + rs.getDouble("preco"));
-                System.out.println("Quantidade Disponivel: " + rs.getInt("quantidade"));
-                System.out.println("---------------------------- \n");
+                int quantidadeAtual = rs.getInt("quantidade");
+
+                if (quantidadeAtual >= quantidadeVendida) {
+                    int novaQuantidade = quantidadeAtual - quantidadeVendida;
+
+                    if (isNumeric(identificador)) {
+                        int id = Integer.parseInt(identificador);
+                        query = "UPDATE produto SET quantidade = ? WHERE id_produto = ?";
+                        ps = conexao.getCon().prepareStatement(query);
+                        ps.setInt(1, novaQuantidade);
+                        ps.setInt(2, id);
+                    } else {
+                        query = "UPDATE produto SET quantidade = ? WHERE nome = ?";
+                        ps = conexao.getCon().prepareStatement(query);
+                        ps.setInt(1, novaQuantidade);
+                        ps.setString(2, identificador);
+                    }
+
+                    ps.executeUpdate();
+                }
             } else {
+                System.out.println("Produto não existe!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet Compra(Produto produto) {
+        ResultSet rs = null;
+        try {
+            String identificador = produto.getIdentificador();
+            int quantidadeComprada = produto.getQuantidade();
+            int quantidadeAtual = 0;
+
+            PreparedStatement ps;
+            String query;
+
+            if (isNumeric(identificador)) {
+                int id = Integer.parseInt(identificador);
+                query = "SELECT quantidade FROM produto WHERE id_produto = ?";
+                ps = conexao.getCon().prepareStatement(query);
+                ps.setInt(1, id);
+            } else {
+                query = "SELECT quantidade FROM produto WHERE nome = ?";
+                ps = conexao.getCon().prepareStatement(query);
+                ps.setString(1, identificador);
+            }
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                quantidadeAtual = rs.getInt("quantidade");
+
+                int novaQuantidade = quantidadeAtual + quantidadeComprada;
+
+                if (isNumeric(identificador)) {
+                    int id = Integer.parseInt(identificador);
+                    query = "UPDATE produto SET quantidade = ? WHERE id_produto = ?";
+                    ps = conexao.getCon().prepareStatement(query);
+                    ps.setInt(1, novaQuantidade);
+                    ps.setInt(2, id);
+                } else {
+                    query = "UPDATE produto SET quantidade = ? WHERE nome = ?";
+                    ps = conexao.getCon().prepareStatement(query);
+                    ps.setInt(1, novaQuantidade);
+                    ps.setString(2, identificador);
+                }
+
+                ps.executeUpdate();
+            }  else {
                 System.out.println("Produto não encontrado.");
             }
         } catch (SQLException e) {
@@ -89,60 +178,4 @@ public class ProdutoDAO {
         return rs;
     }
 
-    public void Venda(Produto produto) {
-        ResultSet rs = null;
-        try {
-            String identificador = produto.getIdentificador();
-            int quantidadeVendida = produto.getQuantidade();
-            int quantidadeAtual = 0;
-
-            if (isNumeric(identificador)) {
-                int id = Integer.parseInt(identificador);
-                this.query = "SELECT quantidade FROM produto WHERE id_produto = ?";
-                this.ps = this.conexao.getCon().prepareStatement(query);
-                this.ps.setInt(1, id);
-            } else {
-                this.query = "SELECT quantidade FROM produto WHERE nome = ?";
-                this.ps = this.conexao.getCon().prepareStatement(query);
-                this.ps.setString(1, identificador);
-            }
-
-            rs = this.ps.executeQuery();
-
-            if (rs.next()) {
-                quantidadeAtual = rs.getInt("quantidade");
-
-                if (quantidadeAtual >= quantidadeVendida) {
-                    int novaQuantidade = quantidadeAtual - quantidadeVendida;
-
-                    if (isNumeric(identificador)) {
-                        int id = Integer.parseInt(identificador);
-                        this.query = "UPDATE produto SET quantidade = ? WHERE id_produto = ?";
-                        this.ps = this.conexao.getCon().prepareStatement(query);
-                        this.ps.setInt(1, novaQuantidade);
-                        this.ps.setInt(2, id);
-                    } else {
-                        this.query = "UPDATE produto SET quantidade = ? WHERE nome = ?";
-                        this.ps = this.conexao.getCon().prepareStatement(query);
-                        this.ps.setInt(1, novaQuantidade);
-                        this.ps.setString(2, identificador);
-                    }
-
-                    this.ps.executeUpdate();
-
-                    System.out.println("Produto vendido!");
-                    System.out.println("Nome/Id: " + identificador);
-                    System.out.println("Quantidade Vendida: " + quantidadeVendida);
-                    System.out.println("Quantidade Atual: " + novaQuantidade);
-                    System.out.println("---------------------------- \n");
-                } else {
-                    System.out.println("Quantidade insuficiente para a venda.");
-                }
-            } else {
-                System.out.println("Produto não encontrado.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

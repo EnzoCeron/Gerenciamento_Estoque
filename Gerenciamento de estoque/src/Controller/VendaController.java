@@ -3,6 +3,9 @@ package Controller;
 import DAO.ProdutoDAO;
 import Model.Produto;
 import View.VendaView;
+
+import java.sql.ResultSet;
+
 public class VendaController {
 
     private VendaView vv;
@@ -11,8 +14,9 @@ public class VendaController {
 
     public VendaController() {
         this.vv = new VendaView();
-        this.produto = this.vv.Venda();
         this.pd = new ProdutoDAO();
-        this.pd.Venda(this.produto);
+        Produto produto = this.vv.Venda();
+        ResultSet rs = this.pd.Venda(produto);
+        this.vv.printVendaResult(rs, produto);
     }
 }
