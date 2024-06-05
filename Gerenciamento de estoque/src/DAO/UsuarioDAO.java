@@ -149,6 +149,12 @@ public class UsuarioDAO {
                 PreparedStatement ps = this.conexao.getCon().prepareStatement(query);
                 ps.setString(1, usuario.getEmail());
 
+                //exluir usuario do cognito
+                AdminDeleteUserRequest deleteUserRequest = new AdminDeleteUserRequest()
+                        .withUserPoolId(USER_POOL_ID)
+                        .withUsername(usuario.getEmail());
+                cognitoClient.adminDeleteUser(deleteUserRequest);
+
                 int rowsAffected = ps.executeUpdate();
 
                 if (rowsAffected > 0) {

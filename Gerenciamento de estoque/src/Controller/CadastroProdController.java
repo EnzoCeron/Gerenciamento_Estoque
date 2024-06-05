@@ -1,6 +1,6 @@
 package Controller;
 
-import View.CadastroProdutoView;
+ import View.CadastroProdutoView;
 import Model.Produto;
 import DAO.ProdutoDAO;
 
