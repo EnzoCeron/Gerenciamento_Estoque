@@ -11,6 +11,7 @@ public class MenuController {
     private MenuView mv;
     private int opcao;
     private EditProdController epc;
+    private ExcluirProdController exc;
 
     public MenuController() {
        
@@ -42,6 +43,7 @@ public class MenuController {
 
             }else if(this.opcao == 8){
                 //excluir produto
+                this.exc = new ExcluirProdController();
 
 
             }else if(this.opcao == 9){
