@@ -14,6 +14,7 @@ public class MenuController {
     private VendaController vc;
     private CompraController coc;
     private int opcao;
+    private EditProdController epc;
 
     public MenuController() {
        
@@ -46,6 +47,7 @@ public class MenuController {
 
             }else if(this.opcao == 8){
                 //atualizar produto
+                this.epc = new EditProdController();
 
             }else if(this.opcao == 9){
                 //realizar venda

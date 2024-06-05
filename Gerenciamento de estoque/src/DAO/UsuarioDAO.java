@@ -9,9 +9,11 @@ import java.util.Map;
 
 import Model.Usuario;
 import com.amazonaws.regions.Regions;
+
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 import com.amazonaws.services.cognitoidp.model.*;
+
 
 public class UsuarioDAO {
 
@@ -25,7 +27,7 @@ public class UsuarioDAO {
     private Map<String, String> authparams = new HashMap<String, String>();
 
     public UsuarioDAO() {
-        this.conexao = Conexao.getInstacia();
+        this.conexao = Conexao.getInstancia();
     }
 
     //Gere uma instância do Provedor de Identidade de
@@ -141,43 +143,6 @@ public class UsuarioDAO {
 
         return null;
     }
-
-    public boolean excluirUsuario(Usuario usuario) {
-        try {
-            if (verificarEmailExistente(usuario.getEmail())) {
-                String query = "DELETE FROM usuario WHERE email = ?";
-                PreparedStatement ps = this.conexao.getCon().prepareStatement(query);
-                ps.setString(1, usuario.getEmail());
-
-                //exluir usuario do cognito
-                AdminDeleteUserRequest deleteUserRequest = new AdminDeleteUserRequest()
-                        .withUserPoolId(USER_POOL_ID)
-                        .withUsername(usuario.getEmail());
-                cognitoClient.adminDeleteUser(deleteUserRequest);
-
-                int rowsAffected = ps.executeUpdate();
-
-                if (rowsAffected > 0) {
-                    System.out.println("Usuário excluído com sucesso.");
-                    return true;
-                } else {
-                    System.out.println("Nenhum usuário encontrado com o email fornecido.");
-                    return false;
-                }
-            } else {
-                System.out.println("Email não existe no banco.");
-                return false;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-
-
-
-
 
 }
 

@@ -14,8 +14,8 @@ public class ProdutoDAO {
     private ResultSet rs;
 
     public ProdutoDAO() {
-        this.conexao = Conexao.getInstacia();
-    } 
+        this.conexao = Conexao.getInstancia();
+    }
 
     //Funcao de Cadastro de Produto
     public void inserirProduto(Produto produto){
@@ -178,4 +178,36 @@ public class ProdutoDAO {
         return rs;
     }
 
+    // Método editarProduto
+
+    public void editarProduto(Produto produto) {
+        try {
+            this.query = "UPDATE produto SET descricao = ?, preco = ?, WHERE nome = ?";
+            this.ps = this.conexao.getCon().prepareStatement(query);  // Padronizado para getCon()
+            this.ps.setString(1, produto.getNome());
+            this.ps.setString(2, produto.getDescricao());
+            this.ps.setDouble(3, produto.getPreco());
+
+
+            //executa atualizacao
+            this.ps.executeUpdate();
+
+
+            // fecha o preparedstatement
+            this.ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
