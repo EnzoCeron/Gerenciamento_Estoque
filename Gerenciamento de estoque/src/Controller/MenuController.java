@@ -15,6 +15,7 @@ public class MenuController {
     private CompraController coc;
     private int opcao;
     private EditProdController epc;
+    private ExcluirProdController exc;
 
     public MenuController() {
        
@@ -43,6 +44,7 @@ public class MenuController {
                 this.ppc = new PesquisarProdController();
             }else if(this.opcao == 7){
                 //excluir produto
+                this.exc = new ExcluirProdController();
 
             }else if(this.opcao == 8){
                 //atualizar produto
