@@ -9,6 +9,9 @@ public class MenuController {
     private CadastroProdController cpc;
     private ListarProdController lpc;
     private MenuView mv;
+    private ExclusaoUsuarioController euc;
+    private PesquisarProdController ppc;
+    private VendaController vc;
     private int opcao;
 
     public MenuController() {
@@ -26,7 +29,7 @@ public class MenuController {
                 this.luc = new ListarUserController();        
             }else if(this.opcao == 3){
                 //excluir usuario
-               
+                this.euc = new ExclusaoUsuarioController();
             }else if(this.opcao == 4){
                 //cadastrar produto
                 this.cpc = new CadastroProdController();
@@ -34,25 +37,23 @@ public class MenuController {
                 //listar produtos
                 this.lpc = new ListarProdController();
             }else if(this.opcao == 6){
-                //pesquisar produto por nome
+                //pesquisar produtos
+                this.ppc = new PesquisarProdController();
 
             }else if(this.opcao == 7){
-                //pesquisar produto por codigo
-
-            }else if(this.opcao == 8){
                 //excluir produto
 
-
-            }else if(this.opcao == 9){
+            }else if(this.opcao == 8){
                 //atualizar produto
 
-            }else if(this.opcao == 10){
+            }else if(this.opcao == 9){
                 //realizar venda
+                this.vc = new VendaController();
 
-            }else if(this.opcao == 11){
+            }else if(this.opcao == 10){
                 //realizar compra
 
-            }else if(this.opcao == 12){
+            }else if(this.opcao == 11){
                 //relatorio de compras e vendas
 
             }else {

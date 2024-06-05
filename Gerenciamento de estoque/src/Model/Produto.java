@@ -7,6 +7,7 @@ public class Produto {
     private String descricao;
     private int quantidade;
     private double preco;
+    private String identificador;
 
     public Produto(int id, String nome, String descricao, int quantidade, double preco) {
         this.id = id;
@@ -21,6 +22,24 @@ public class Produto {
         this.descricao = descricao;
         this.quantidade = quantidade;
         this.preco = preco;
+    }
+
+
+    public Produto(String identificador) {
+        this.identificador = identificador;
+    }
+
+    public Produto(String identificador, int quantidade) {
+        this.identificador = identificador;
+        this.quantidade = quantidade;
+    }
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
     }
 
     public int getId() {
