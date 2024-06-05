@@ -10,6 +10,7 @@ public class MenuController {
     private ListarProdController lpc;
     private MenuView mv;
     private int opcao;
+    private EditProdController epc;
 
     public MenuController() {
        
@@ -45,6 +46,7 @@ public class MenuController {
 
             }else if(this.opcao == 9){
                 //atualizar produto
+                this.epc = new EditProdController();
 
             }else if(this.opcao == 10){
                 //realizar venda

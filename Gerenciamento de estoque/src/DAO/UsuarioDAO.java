@@ -9,11 +9,11 @@ import java.util.Map;
 
 import Model.Usuario;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.cognitoidentity.model.CognitoIdentityProvider;
+
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 import com.amazonaws.services.cognitoidp.model.*;
-import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderAsyncClient;
+
 
 public class UsuarioDAO {
 
@@ -27,7 +27,7 @@ public class UsuarioDAO {
     private Map<String, String> authparams = new HashMap<String, String>();
 
     public UsuarioDAO() {
-        this.conexao = Conexao.getInstacia();
+        this.conexao = Conexao.getInstancia();
     }
 
     //Gere uma instância do Provedor de Identidade de
