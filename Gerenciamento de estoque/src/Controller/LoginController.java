@@ -6,10 +6,10 @@ import View.LoginView;
 
 public class LoginController {
 
-    private LoginView lv;
-    private Usuario usuario;
-    private UsuarioDAO ud;
-    private MenuController mc;
+    private final LoginView lv;
+    private final Usuario usuario;
+    private final UsuarioDAO ud;
+    private  MenuController mc;
 
     public LoginController() {
         this.lv = new LoginView();
@@ -19,11 +19,10 @@ public class LoginController {
         boolean logado = this.ud.LoginUsuario(this.usuario);
 
         if(logado){
-            System.out.println("Logado com sucesso!");
             this.mc = new MenuController();
 
-        }else{  
-            System.out.println("Usuario ou senha invalidos");
+        }else{
+            System.out.println("Usuário inválido!");
             new LoginController();
         }
     }

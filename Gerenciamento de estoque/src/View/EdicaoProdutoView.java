@@ -12,7 +12,7 @@ import Model.Produto;
 
 public class EdicaoProdutoView {
 
-    private Scanner sc;
+    private final Scanner sc;
 
     public EdicaoProdutoView() {
         sc = new Scanner(System.in);

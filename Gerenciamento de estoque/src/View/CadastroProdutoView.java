@@ -5,7 +5,7 @@ import Model.Produto;
 
 public class CadastroProdutoView {
 
-    private Scanner sc;
+    private final Scanner sc;
 
     public CadastroProdutoView() {
         sc = new Scanner(System.in);

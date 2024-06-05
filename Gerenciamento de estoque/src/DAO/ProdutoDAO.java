@@ -8,7 +8,7 @@ import Model.Produto;
 
 public class ProdutoDAO {
 
-    private Conexao conexao;
+    private final Conexao conexao;
     private String query;
     private PreparedStatement ps;
     private ResultSet rs;
@@ -182,12 +182,11 @@ public class ProdutoDAO {
 
     public void editarProduto(Produto produto) {
         try {
-            this.query = "UPDATE produto SET descricao = ?, preco = ?, WHERE nome = ?";
+            this.query = "UPDATE produto SET descricao = ?, preco = ?  WHERE nome = ?";
             this.ps = this.conexao.getCon().prepareStatement(query);  // Padronizado para getCon()
-            this.ps.setString(1, produto.getNome());
-            this.ps.setString(2, produto.getDescricao());
-            this.ps.setDouble(3, produto.getPreco());
-
+            this.ps.setString(1, produto.getDescricao());
+            this.ps.setDouble(2, produto.getPreco());
+            this.ps.setString(3, produto.getNome());
 
             //executa atualizacao
             this.ps.executeUpdate();

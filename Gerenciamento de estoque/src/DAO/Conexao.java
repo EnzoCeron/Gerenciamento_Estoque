@@ -2,8 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
 
 public class Conexao {
     private static Conexao instancia;
@@ -32,14 +31,6 @@ public class Conexao {
 
 }
 
-
-//    public static Conexao getInstacia() { // anterior
-//        if (conexao == null) {
-//            conexao = new Conexao();
-//        }
-//
-//        return conexao;
-//    }
 
 
 

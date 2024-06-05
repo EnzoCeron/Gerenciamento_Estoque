@@ -17,21 +17,18 @@ import com.amazonaws.services.cognitoidp.model.*;
 
 public class UsuarioDAO {
 
-    private Conexao conexao;
+    private final Conexao conexao;
     private String query;
     private PreparedStatement ps;
-    private ResultSet rs;
     //Cadastro e Login de Usuario, via Cognito
-    private String USER_POOL_ID = "us-east-2_pEEvvUKHm";
-    private String CLIENT_ID = "66g36clem57321e4gc195ppijq";
-    private Map<String, String> authparams = new HashMap<String, String>();
+    private final String USER_POOL_ID = "us-east-2_pEEvvUKHm";
+    private final String CLIENT_ID = "66g36clem57321e4gc195ppijq";
+    private final Map<String, String> authparams = new HashMap<>();
 
     public UsuarioDAO() {
         this.conexao = Conexao.getInstancia();
     }
 
-    //Gere uma instância do Provedor de Identidade de
-    //Acesso do Cognito.
 
     AWSCognitoIdentityProvider cognitoClient = AWSCognitoIdentityProviderClientBuilder.standard()
             .withRegion(Regions.US_EAST_2)
@@ -45,23 +42,22 @@ public class UsuarioDAO {
             ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getBoolean(1); 
+                    return rs.getBoolean(1);
                 }
-            } 
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false; 
+        return false;
     }
-    
+
     //Funcao de Cadastro de Usuario
-    public void inserirUsuario(Usuario usuario){
-        try{
+    public void inserirUsuario(Usuario usuario) {
+        try {
             if (verificarEmailExistente(usuario.getEmail())) {
                 System.out.println("\n");
                 System.out.println("Email ja esta cadastrado no banco de dados \n");
-            }
-            else{
+            } else {
                 this.query = "INSERT INTO usuario (email, nome, senha) VALUES (?, ?, ?)";
                 this.ps = this.conexao.getCon().prepareStatement(query);
                 this.ps.setString(1, usuario.getEmail());
@@ -72,11 +68,9 @@ public class UsuarioDAO {
                 System.out.println("Usuario cadastrado com sucesso!");
                 this.ps.close();
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -93,56 +87,78 @@ public class UsuarioDAO {
     public boolean LoginUsuario(Usuario usuario) {
         authparams.put("USERNAME", usuario.getEmail());
         authparams.put("PASSWORD", usuario.getSenha());
-
-        InitiateAuthRequest authRequest = new InitiateAuthRequest()
-                .withAuthFlow(AuthFlowType.USER_PASSWORD_AUTH)
-                .withAuthParameters(authparams)
-                .withClientId(CLIENT_ID);
-
-
-        InitiateAuthResult authResponse = cognitoClient.initiateAuth(authRequest);
-        AuthenticationResultType authResult = authResponse.getAuthenticationResult();
-        if (authResult != null) {
-            System.out.println("Usuario logado com sucesso no Cognito");
-        } else {
-            System.out.println("Usuario ou senha invalidos");
-        }
+        try{
+            InitiateAuthRequest authRequest = new InitiateAuthRequest()
+                    .withAuthFlow(AuthFlowType.USER_PASSWORD_AUTH)
+                    .withAuthParameters(authparams)
+                    .withClientId(CLIENT_ID);
 
 
-        try {
+            InitiateAuthResult authResponse = cognitoClient.initiateAuth(authRequest);
+            AuthenticationResultType authResult = authResponse.getAuthenticationResult();
+
+            if (authResult != null) {
+                System.out.println("Usuario logado com sucesso no Cognito");
+            } else {
+                System.out.println("Usuario ou senha invalidos, no cognito");
+            }
+
             this.query = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
             this.ps = this.conexao.getCon().prepareStatement(query);
             this.ps.setString(1, usuario.getEmail());
             this.ps.setString(2, usuario.getSenha());
-            this.rs = this.ps.executeQuery();
+            ResultSet rs = this.ps.executeQuery();
             return rs.next(); // Retorna True se encontrar um usuario correspondente
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            return false; 
-        }
-        catch (Exception e) {
+            return false;
+        }catch (NotAuthorizedException e){
+            System.out.println("Usuario ou senha invalidos");
+            return false;
+        }catch (Exception e){
             e.printStackTrace();
             return false;
         }
     }
 
     //Funcao de Listar Usuarios
-    public ResultSet listarUsuarios(){
-        try{
+    public ResultSet listarUsuarios() {
+        try {
             this.query = "SELECT * FROM usuario";
             this.ps = this.conexao.getCon().prepareStatement(query);
             return this.ps.executeQuery();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return null;
     }
 
+    public void excluirUsuario(Usuario usuario) {
+        try {
+
+            if (verificarEmailExistente(usuario.getEmail())) {
+                String query = "DELETE FROM usuario WHERE email = ?";
+                PreparedStatement ps = this.conexao.getCon().prepareStatement(query);
+                ps.setString(1, usuario.getEmail());
+
+
+                int rowsAffected = ps.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Usuário excluído com sucesso.");
+                } else {
+                    System.out.println("Nenhum usuário encontrado com o email fornecido.");
+                }
+            } else {
+                System.out.println("Email não existe no banco.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
 

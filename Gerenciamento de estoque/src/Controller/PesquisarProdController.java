@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 
 public class PesquisarProdController {
 
-        private PesquisarProdView pnv;
-        private Produto produto;
-        private ProdutoDAO pd;
+        private final PesquisarProdView pnv;
+        private final Produto produto;
+        private final ProdutoDAO pd;
 
         public PesquisarProdController() {
             this.pnv = new PesquisarProdView();

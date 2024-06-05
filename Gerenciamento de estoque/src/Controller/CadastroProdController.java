@@ -6,9 +6,9 @@ import DAO.ProdutoDAO;
 
 public class CadastroProdController {
 
-    private CadastroProdutoView cpv;
-    private Produto produto;
-    private ProdutoDAO pd;
+    private final CadastroProdutoView cpv;
+    private final Produto produto;
+    private final ProdutoDAO pd;
 
     public CadastroProdController() {
         this.cpv = new CadastroProdutoView();

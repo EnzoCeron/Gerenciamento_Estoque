@@ -5,9 +5,10 @@ import View.EdicaoProdutoView;
 import Model.Produto;
 
 public class EditProdController {
-    private  EdicaoProdutoView epv;
-    private Produto produto;
-    private ProdutoDAO pd;
+
+    private  final EdicaoProdutoView epv;
+    private final Produto produto;
+    private final ProdutoDAO pd;
 
 
     public EditProdController() {

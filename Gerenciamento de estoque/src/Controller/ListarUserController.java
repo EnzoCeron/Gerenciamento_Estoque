@@ -5,8 +5,8 @@ import View.ListarUserView;
 
 public class ListarUserController {
     
-    private ListarUserView luv;
-    private UsuarioDAO ud;
+    private final ListarUserView luv;
+    private final UsuarioDAO ud;
 
     public ListarUserController() {
         this.luv = new ListarUserView();

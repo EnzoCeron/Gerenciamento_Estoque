@@ -5,8 +5,8 @@ import View.ListarProdutoView;
 
 public class ListarProdController {
     
-    private ListarProdutoView lpv;
-    private ProdutoDAO pd;
+    private final ListarProdutoView lpv;
+    private final ProdutoDAO pd;
 
     public ListarProdController(){
         this.lpv = new ListarProdutoView();

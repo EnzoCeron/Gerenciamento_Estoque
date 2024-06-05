@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class CompraView {
 
-    private Scanner sc;
+    private final Scanner sc;
 
     public CompraView() {
         sc = new Scanner(System.in);

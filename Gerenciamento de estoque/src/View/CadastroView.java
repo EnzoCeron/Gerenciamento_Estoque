@@ -9,7 +9,7 @@ import Model.Usuario;
 
 public class CadastroView {
 
-    private Scanner sc;
+    private final Scanner sc;
 
     public CadastroView() {
         sc = new Scanner(System.in);

@@ -6,9 +6,9 @@ import View.CadastroView;
 
 public class CadastroController {
 
-    private CadastroView cv;
-    private Usuario usuario;
-    private UsuarioDAO ud;
+    private final CadastroView cv;
+    private final Usuario usuario;
+    private final UsuarioDAO ud;
 
     public CadastroController() {
         this.cv = new CadastroView();

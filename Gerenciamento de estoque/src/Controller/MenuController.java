@@ -8,7 +8,7 @@ public class MenuController {
     private ListarUserController luc;
     private CadastroProdController cpc;
     private ListarProdController lpc;
-    private MenuView mv;
+    private final MenuView mv;
     private ExclusaoUsuarioController euc;
     private PesquisarProdController ppc;
     private VendaController vc;
@@ -41,18 +41,15 @@ public class MenuController {
             }else if(this.opcao == 6){
                 //pesquisar produtos
                 this.ppc = new PesquisarProdController();
-
             }else if(this.opcao == 7){
                 //excluir produto
 
             }else if(this.opcao == 8){
                 //atualizar produto
                 this.epc = new EditProdController();
-
             }else if(this.opcao == 9){
                 //realizar venda
                 this.vc = new VendaController();
-
             }else if(this.opcao == 10){
                 //realizar compra
                 this.coc = new CompraController();

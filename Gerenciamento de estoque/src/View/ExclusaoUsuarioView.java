@@ -5,7 +5,7 @@ import java.util.Scanner;
 import Model.Usuario;
 public class ExclusaoUsuarioView {
 
-    private Scanner sc;
+    private final Scanner sc;
 
     public ExclusaoUsuarioView() { sc = new Scanner(System.in); }
 

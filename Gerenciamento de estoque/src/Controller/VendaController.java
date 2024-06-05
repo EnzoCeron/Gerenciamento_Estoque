@@ -8,14 +8,14 @@ import java.sql.ResultSet;
 
 public class VendaController {
 
-    private VendaView vv;
-    private Produto produto;
-    private ProdutoDAO pd;
+    private final VendaView vv;
+    private final Produto produto;
+    private final ProdutoDAO pd;
 
     public VendaController() {
         this.vv = new VendaView();
         this.pd = new ProdutoDAO();
-        Produto produto = this.vv.Venda();
+        this.produto = this.vv.Venda();
         ResultSet rs = this.pd.Venda(produto);
         this.vv.printVendaResult(rs, produto);
     }

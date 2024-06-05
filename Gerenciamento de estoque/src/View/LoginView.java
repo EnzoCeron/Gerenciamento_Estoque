@@ -7,7 +7,7 @@ import java.util.Scanner;
 import Model.Usuario;
 
 public class LoginView {
-    private Scanner sc;
+    private final Scanner sc;
 
     public LoginView() {
         sc = new Scanner(System.in);
@@ -28,9 +28,7 @@ public class LoginView {
             //Converte o Hash para uma string Base64
             String hashMD5Base64 = Base64.getEncoder().encodeToString(hashMD5);
 
-            String nome = " ";
-
-            return new Usuario(email, nome, hashMD5Base64);
+            return new Usuario(email, hashMD5Base64);
         }
         catch (NoSuchAlgorithmException e){
             e.printStackTrace();
@@ -38,4 +36,3 @@ public class LoginView {
         return null;
     }
 }
-//Base64.getEncoder().encodeToString(hashMD5)

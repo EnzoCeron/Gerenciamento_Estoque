@@ -5,9 +5,9 @@ import Model.Usuario;
 import View.ExclusaoUsuarioView;
 public class ExclusaoUsuarioController {
 
-    private ExclusaoUsuarioView euv;
-    private Usuario usuario;
-    private UsuarioDAO ud;
+    private final ExclusaoUsuarioView euv;
+    private final Usuario usuario;
+    private final UsuarioDAO ud;
 
     public ExclusaoUsuarioController() {
         this.euv = new ExclusaoUsuarioView();

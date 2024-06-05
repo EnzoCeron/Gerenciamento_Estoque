@@ -7,14 +7,14 @@ import View.CompraView;
 import java.sql.ResultSet;
 public class CompraController {
 
-    private CompraView cv;
-    private Produto produto;
-    private ProdutoDAO cd;
+    private final CompraView cv;
+    private final Produto produto;
+    private final ProdutoDAO cd;
 
     public CompraController() {
         this.cv = new CompraView();
         this.cd = new ProdutoDAO();
-        Produto produto = this.cv.Compra();
+        this.produto = this.cv.Compra();
         ResultSet rs = this.cd.Compra(produto);
         this.cv.printCompraResult(rs, produto);
     }

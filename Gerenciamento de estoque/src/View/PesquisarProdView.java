@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class PesquisarProdView {
 
-    private Scanner sc;
+    private final Scanner sc;
 
     public PesquisarProdView() { sc = new Scanner(System.in); }
 
